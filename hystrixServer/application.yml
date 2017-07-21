@@ -1,0 +1,31 @@
+# cat hystrixServer.yaml 
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: hystrixServer-rc
+spec:
+  replicas: 1
+  selector:
+        app: hystrixServer
+  template:
+    metadata:
+      labels:
+        app: hystrixServer
+    spec:
+      containers:
+      - name: hystrixServer
+        image: unifier/hystrixServer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hystrixServer-service
+
+spec:
+  ports:
+    - protocol: TCP
+      port: 9023
+      nodePort: 9023
+  type: NodePort
+  selector:
+     app: hystrixServer

@@ -1,0 +1,30 @@
+# cat configServer.yaml 
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: configServer-rc
+spec:
+  replicas: 1
+  selector:
+        app: configServer
+  template:
+    metadata:
+      labels:
+        app: configServer
+    spec:
+      containers:
+      - name: configServer
+        image: unifier/configServer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: configServer-service
+
+spec:
+  ports:
+    - protocol: TCP
+      port: 8828
+  type: ClusterIP
+  selector:
+     app: configServer

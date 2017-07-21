@@ -1,0 +1,31 @@
+# cat eurekaServer.yaml 
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: eurekaServer-rc
+spec:
+  replicas: 1
+  selector:
+        app: eurekaServer
+  template:
+    metadata:
+      labels:
+        app: eurekaServer
+    spec:
+      containers:
+      - name: eurekaServer
+        image: unifier/eurekaServer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eurekaServer-service
+
+spec:
+  ports:
+    - protocol: TCP
+      port: 8761
+      nodePort: 8761
+  type: NodePort
+  selector:
+     app: eurekaServer

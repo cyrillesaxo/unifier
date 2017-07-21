@@ -1,0 +1,31 @@
+# cat equipmentApiGateway.yaml 
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: equipmentApiGateway-rc
+spec:
+  replicas: 2
+  selector:
+        app: equipmentApiGateway
+  template:
+    metadata:
+      labels:
+        app: equipmentApiGateway
+    spec:
+      containers:
+      - name: equipmentApiGateway
+        image: unifier/equipmentApiGateway
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: equipmentApiGateway-service
+
+spec:
+  ports:
+    - protocol: TCP
+      port: 5000
+      nodePort: 3000
+  type: NodePort
+  selector:
+     app: equipmentApiGateway

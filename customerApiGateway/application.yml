@@ -1,0 +1,31 @@
+# cat customerApiGateway.yaml 
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: customerApiGateway-rc
+spec:
+  replicas: 2
+  selector:
+        app: customerApiGateway
+  template:
+    metadata:
+      labels:
+        app: customerApiGateway
+    spec:
+      containers:
+      - name: customerApiGateway
+        image: unifier/customerApiGateway
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customerApiGateway-service
+
+spec:
+  ports:
+    - protocol: TCP
+      port: 5000
+      nodePort: 1000
+  type: NodePort
+  selector:
+     app: customerApiGateway

@@ -1,0 +1,31 @@
+# cat equipment.yaml 
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: equipment-rc
+spec:
+  replicas: 4
+  selector:
+        app: equipment
+  template:
+    metadata:
+      labels:
+        app: equipment
+    spec:
+      containers:
+      - name: equipment
+        image: unifier/equipment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: equipment-service
+
+spec:
+  ports:
+    - protocol: TCP
+      port: 5000
+      nodePort: 7000
+  type: ClusterIP
+  selector:
+     app: equipment

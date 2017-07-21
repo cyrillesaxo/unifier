@@ -1,0 +1,31 @@
+# cat billingApiGateway.yaml 
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: billingApiGateway-rc
+spec:
+  replicas: 2
+  selector:
+        app: billingApiGateway
+  template:
+    metadata:
+      labels:
+        app: billingApiGateway
+    spec:
+      containers:
+      - name: billingApiGateway
+        image: unifier/billingApiGateway
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: billingApiGateway-service
+
+spec:
+  ports:
+    - protocol: TCP
+      port: 5000
+      nodePort: 2000
+  type: NodePort
+  selector:
+     app: billingApiGateway

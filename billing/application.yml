@@ -1,0 +1,31 @@
+# cat billing.yaml 
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: billing-rc
+spec:
+  replicas: 8
+  selector:
+        app: billing
+  template:
+    metadata:
+      labels:
+        app: billing
+    spec:
+      containers:
+      - name: billing
+        image: unifier/billing
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: billing-service
+
+spec:
+  ports:
+    - protocol: TCP
+      port: 5000
+      nodePort: 9000
+  type: NodePort
+  selector:
+     app: billing
